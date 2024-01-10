@@ -28,7 +28,9 @@ if exists(':AsyncRun') && v:version >= 800
 endif
 
 function! s:CompileSynchronous()
-    execute "silent !pandoc " .s:args. " " . shellescape("%") "-o" shellescape("%<.pdf") "&>/dev/null && pkill -HUP mupdf &> /dev/null"
+    let l:cmd = "pandoc " . s:args . " " . shellescape("%") . " -o " . shellescape("%<.pdf") . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
+    echom "Executing command: " . l:cmd
+    execute "silent !" . l:cmd
 endfunction
 
 function! s:CompileAsynchronous()
