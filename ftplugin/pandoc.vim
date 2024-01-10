@@ -29,7 +29,8 @@ endif
 
 function! s:CompileSynchronous()
     let l:cmd = "pandoc " . s:args . " " . shellescape("%") . " -o " . shellescape("%<.pdf") . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
-    echom "Executing command: " . l:cmd
+    " Append the command to a log file in the current directory
+    call writefile([l:cmd], getcwd() . '/compile_log.txt', 'a')
     execute "silent !" . l:cmd
 endfunction
 
