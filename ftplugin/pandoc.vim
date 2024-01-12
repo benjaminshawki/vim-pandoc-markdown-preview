@@ -28,10 +28,8 @@ if exists(':AsyncRun') && v:version >= 800
 endif
 
 function! s:CompileSynchronous()
-    let l:cmd = "pandoc " . s:args . " " . shellescape("%") . " -o " . shellescape("%<.pdf") . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
-    " Append the command to a log file in the current directory
-    call writefile([l:cmd], getcwd() . '/compile_log.txt', 'a')
-    execute "silent !" . l:cmd
+"    execute "silent !pandoc " .s:args. " " . shellescape("%") "-o" shellescape("%<.pdf") "&>/dev/null && pkill -HUP mupdf &> /dev/null"
+    execute "silent !pandoc " . s:args . " " . shellescape("%") . " -o " . shellescape("%<.pdf") . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
 endfunction
 
 function! s:CompileAsynchronous()
