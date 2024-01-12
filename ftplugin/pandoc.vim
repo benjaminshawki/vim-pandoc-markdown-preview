@@ -31,13 +31,16 @@ function! s:CompileSynchronous()
 "    execute "silent !pandoc " .s:args. " " . shellescape("%") "-o" shellescape("%<.pdf") "&>/dev/null && pkill -HUP mupdf &> /dev/null"
 
 " Construct the command
-    let command = "silent !pandoc " . s:args . " " . shellescape("%") . " -o " . shellescape("%<.pdf") . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
+    
+    " Construct the command with expanded '%'
+    let command = "silent !pandoc " . s:args . " " . shellescape(expand("%")) . " -o " . shellescape(expand("%<.pdf")) . " &>/dev/null && pkill -HUP mupdf &> /dev/null"
     
     " Convert the command string to a list and write it to a file
     call writefile([command], expand('~/vimplugindebug'))
     
     " Execute the command
     execute command
+
 endfunction
 
 function! s:CompileAsynchronous()
